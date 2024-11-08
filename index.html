@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Key Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #f2f2f2; }
+        .admin-container { background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); width: 300px; }
+        h2 { text-align: center; }
+        select, button { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 3px; }
+        button { background-color: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        .key-output { text-align: center; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="admin-container">
+    <h2>Admin Key Generator</h2>
+    <form id="keyGeneratorForm">
+        <label for="duration">Select Key Duration:</label>
+        <select id="duration" required>
+            <option value="1">1 day</option>
+            <option value="3">3 days</option>
+            <option value="7">7 days</option>
+            <option value="15">15 days</option>
+            <option value="30">30 days</option>
+        </select>
+        <button type="button" onclick="generateKey()">Generate Key</button>
+    </form>
+    <div class="key-output" id="keyOutput"></div>
+</div>
+
+<script>
+    // Store keys and their expiration in memory
+    const keys = {};
+
+    function generateKey() {
+        const duration = parseInt(document.getElementById('duration').value);
+        const expirationDate = new Date();
+        expirationDate.setDate(expirationDate.getDate() + duration);
+
+        // Generate a unique key
+        const key = 'KEY-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+        
+        // Store key with expiration date
+        keys[key] = expirationDate;
+        
+        // Display generated key to the admin
+        document.getElementById('keyOutput').innerHTML = 'Generated Key: ' + key + '<br>Expires on: ' + expirationDate.toDateString();
+    }
+
+    // Expose the keys for user login
+    window.generatedKeys = keys;
+</script>
+
+</body>
+</html>
